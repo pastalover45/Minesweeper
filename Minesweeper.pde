@@ -2,10 +2,12 @@
 import de.bezier.guido.*;
 //Declare and initialize NUM_ROWS and NUM_COLS = 20
 int NUM_ROWS = 20;
-int NUM_ROWS = 20; 
+int NUM_COLS = 20; 
+int NUM_MINES = 40;
 
 private MSButton[][] buttons; //2d array of minesweeper buttons
-private ArrayList <MSButton> bombs; //ArrayList of just the minesweeper buttons that are mined
+ //initialize bombs to be a new empty ArrayList of type MSButton
+private ArrayList <MSButton> bombs = new ArrayList<MSButton>(); //ArrayList of just the minesweeper buttons that are mined
 
 void setup ()
 {
@@ -37,10 +39,10 @@ public void setBombs()
    int row,col;
 
     while (bombs.size() < NUM_MINES+1) {
-
+    //random row and column number
      row = (int)(Math.random()*20);
      col = (int)(Math.random()*20);
-
+       // Use the contains() function to check to see if buttons[row][col] is already in bombs. 
      if(!bombs.contains(buttons[row][col])){
 
       bombs.add(buttons[row][col]);
@@ -107,6 +109,7 @@ public class MSButton
     {    
         if (marked)
             fill(0);
+        //cells with a mine turn red when clicked
         else if( clicked && bombs.contains(this) ) 
             fill(255,0,0);
         else if(clicked)
