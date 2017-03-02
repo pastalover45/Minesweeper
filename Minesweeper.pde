@@ -35,7 +35,6 @@ void setup ()
 public void setBombs()
 {
     //your code
-
    int row,col;
 
     while (bombs.size() < NUM_MINES+1) {
@@ -64,10 +63,20 @@ public boolean isWon()
 public void displayLosingMessage()
 {
     //your code here
+    for(int r = 0; r < NUM_ROWS; r++){
+        for(int c = 0; c < NUM_COLS; c++){
+            buttons[r][c].setLabel("x_x");
+         }
+    }
 }
 public void displayWinningMessage()
 {
     //your code here
+    for(int r = 0; r < NUM_ROWS; r++){
+        for(int c = 0; c < NUM_COLS; c++){
+            buttons[r][c].setLabel("^_^");
+         }
+    }
 }
 
 public class MSButton
@@ -103,6 +112,28 @@ public class MSButton
     {
         clicked = true;
         //your code here
+        if (keyPressed == true){
+            marked = true; 
+        }
+        else if(bombs.contains(this)){
+//else if bombs contains this button display the losing message
+                 displayLosingMessage();
+             }
+//else if countBombs returns a number of neighboring mines greater than zero, set the label to that number
+     else if(countBombs(r,c)>0){
+
+                setLabel(""+countBombs(r,c));
+                  }
+    
+
+
+
+
+
+
+
+
+
     }
 
     public void draw () 
@@ -128,20 +159,64 @@ public class MSButton
     public boolean isValid(int r, int c)
     {
         //your code here
-         if(isValid(r-1,c)==true&&buttons[r-1][c].isClicked()==false){
+        //returns true if (row,col) is a valid location on the grid and false otherwise
 
-                    buttons[r-1][c].mousePressed();
-                }
+          if(r < NUM_ROWS && c < NUM_COLS && r >=0 && c>=0){
+          return true;  
+        }
+        else
+        {
 
-        return false;
+            return false;
+
+        }
     }
     public int countBombs(int row, int col)
     {
         int numBombs = 0;
         //your code here
+        //remember to check to see if the neighboring button is valid before checking to see if it's a mine)
+         // 8 neighbors
+         if(isValid(r-1,c)&& bombs.contains(buttons[r-1][c])){
+
+            numBombs++;
+        }
+         if(isValid(r+1,c)&& bombs.contains(buttons[r+1][c])){
+
+            numBombs++;
+        }
+        if(isValid(r,c-1)&& bombs.contains(buttons[r][c-1])){
+
+            numBombs++;
+        }
+         if(isValid(r,c+1)&& bombs.contains(buttons[r][c+1])){
+
+            numBombs++;
+        }
+        if(isValid(r-1,c-1)&& bombs.contains(buttons[r-1][c-1])){
+
+            numBombs++;
+        }
+         if(isValid(r+1,c+1)&& bombs.contains(buttons[r+1][c+1])){
+
+            numBombs++;
+        }
+        if(isValid(r+1,c-1)&& bombs.contains(buttons[r+1][c-1])){
+
+            numBombs++;
+        }
+         if(isValid(r-1,c+1)&& bombs.contains(buttons[r-1][c+1])){
+
+            numBombs++;
+        }
+
         return numBombs;
     }
 }
+
+
+
+
 
 
 
