@@ -8,7 +8,8 @@ int NUM_MINES = 40;
 private MSButton[][] buttons; //2d array of minesweeper buttons
  //initialize bombs to be a new empty ArrayList of type MSButton
 private ArrayList <MSButton> bombs = new ArrayList<MSButton>(); //ArrayList of just the minesweeper buttons that are mined
-
+private boolean gameOver=false;
+  
 void setup ()
 {
     size(400, 400);
@@ -117,6 +118,11 @@ public class MSButton
     
     public void mousePressed () 
     {
+          if(gameOver==true){
+            return;
+           }
+
+
         clicked = true;
         //your code here
         if (keyPressed == true){
@@ -126,6 +132,7 @@ public class MSButton
         else if(bombs.contains(this)){
 //else if bombs contains this button display the losing message
                  displayLosingMessage();
+                     gameOver=true;
              }
 //else if countBombs returns a number of neighboring mines greater than zero, set the label to that number
      else if(countBombs(r,c)>0){
@@ -212,7 +219,7 @@ public class MSButton
 
         }
     }
-    
+
     public int countBombs(int row, int col)
     {
         int numBombs = 0;
